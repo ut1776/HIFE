@@ -9,8 +9,7 @@
 ## 🧭 README Navigation
 
 * [What Is HIFE?](#-what-is-hife)
-* [Why Does This Matter?](#-why-does-this-matter)
-* [Why Iron Flow Batteries?](#-why-iron-flow-batteries)
+* [Why It Matters](#-why-it-matters)
 * [What Is Innovative?](#-what-is-innovative)
 * [The 3 mm / 1 mm Concept](#-the-3-mm--1-mm-concept)
 * [Figure 2](#-figure-2)
@@ -19,11 +18,13 @@
 * [Architecture Comparison](#-architecture-comparison)
 * [Sensitivity Analysis](#-sensitivity-analysis)
 * [Limitations](#-limitations)
-* [From Model to Experiment](#-from-model-to-experiment)
+* [Why Iron? Why Not Lithium-Ion or Vanadium?](#-why-iron-why-not-lithium-ion-or-vanadium)
 * [Evidence Classification](#-evidence-classification)
 * [Reproducibility](#-reproducibility)
 * [What Comes Next?](#-what-comes-next)
 * [Core HIFE Question](#-core-hife-question)
+* [Project Files](#-project-files)
+* [Model Status](#-model-status)
 
 ---
 
@@ -33,7 +34,7 @@
 
 It is a proposed electrode architecture for **aqueous iron-based redox-flow batteries**.
 
-Instead of treating an electrode simply as porous material, HIFE proposes designing it as a **multi-scale transportation network**:
+Rather than treating an electrode simply as porous material, HIFE proposes a hierarchy of transport pathways:
 
 ```text
 Large flow channels
@@ -49,295 +50,212 @@ Iron deposition
 Evolving structure
 ```
 
-The central hypothesis is that **electrode architecture can be designed together with flow, reaction, and deposition behavior**.
+The central hypothesis is:
 
-> **HIFE is currently a computational/analytical research concept. It has not yet been experimentally validated.**
+> **Electrode architecture can be designed together with flow, reaction, and deposition behavior.**
 
----
-
-# ⚡ Why Does This Matter?
-
-Long-duration energy storage requires technologies capable of storing and delivering electricity over extended periods.
-
-Flow batteries are particularly interesting for stationary applications because their energy-bearing electrolyte is stored externally and the electrolyte volume and electrochemical stack can be scaled somewhat independently.
-
-HIFE asks a focused question:
-
-> **Can electrode architecture improve the transport environment of an aqueous iron-flow battery?**
+HIFE is currently a **computational/analytical research concept**, not an experimentally validated device.
 
 ---
 
-# 🧪 Why Iron Flow Batteries?
+# ⚡ Why It Matters
 
-Iron-based flow batteries are one of several possible flow-battery chemistries.
+Flow batteries are potentially attractive for stationary and long-duration energy storage because the energy-bearing electrolyte is stored externally, allowing energy and power to be scaled somewhat independently.
 
-Iron is interesting because it is a resource-abundant redox-active element and can participate in established iron-flow electrochemical couples.
+HIFE focuses on one engineering problem:
 
-HIFE does **not** claim that iron is universally superior to vanadium, lithium-ion, or other technologies.
-
-The research question is narrower:
-
-> **Can hierarchical electrode architecture help address transport and deposition challenges in an iron-flow system?**
+> **Can electrode architecture improve how electrolyte reaches reactive regions while accommodating an electrode structure that may evolve during operation?**
 
 ---
 
 # 💡 What Is Innovative?
 
-The proposed innovation is **architectural**, not the invention of new iron chemistry.
+The proposed innovation is **architectural**, not a new iron chemistry.
 
-HIFE connects:
+HIFE combines:
 
 ```text
 Chemistry
-   ↕
+   +
 Electrolyte flow
-   ↕
-Electrode structure
-   ↕
+   +
+Hierarchical electrode structure
+   +
 Reaction
-   ↕
-Iron deposition
-   ↕
-Changing transport pathways
+   +
+Deposition
 ```
 
-This creates a potentially important feedback loop:
-
-**deposition → structure change → transport change → reaction change**
-
-HIFE therefore treats deposition as part of the **electrode-design problem** rather than only a chemical phenomenon.
-
----
-
-# 🌳 Why "Hierarchical"?
-
-Different physical scales are assigned different functions:
+This creates a coupled design problem:
 
 ```text
-Large channel
-     ↓
-Flow distribution
-     ↓
-Porous land
-     ↓
-Microscopic pores
-     ↓
-Reaction surface
+Deposition
+    ↓
+Structure changes
+    ↓
+Transport changes
+    ↓
+Reaction environment changes
+    ↺
 ```
 
-The concept is similar to a transportation network:
-
-```text
-Highway
-  ↓
-Major road
-  ↓
-Local road
-  ↓
-Destination
-```
-
-The objective is to connect **macro-scale transport** with **micro-scale electrochemical reaction**.
+The research idea is therefore to design the **environment around the chemistry**, rather than optimizing the chemistry alone.
 
 ---
 
 # 🚰 The 3 mm / 1 mm Concept
 
-The current hydraulic screening model examines:
+The current screening geometry contains:
 
 * **3 mm porous land**
 * **1 mm × 1 mm square flow channel**
-* **3 mm nominal electrode/hydraulic path length**
+* **3 mm nominal hydraulic/electrode path length**
 
 Conceptually:
 
 ```text
 ┌───────────────────────────┐
-│      POROUS LAND          │
-│          3 mm             │
+│       POROUS LAND         │
+│           3 mm            │
 ├───────────────────────────┤
-│      1 mm × 1 mm          │
+│       1 mm × 1 mm         │
 │       FLOW CHANNEL        │
 └───────────────────────────┘
 ```
 
-This is a **screening geometry**, not a final optimized design.
+This is a **first-pass screening geometry**, not a final optimized design.
 
 ---
 
 # 📐 Figure 2
 
-`HIFE_Figure2_Hydraulic_MonteCarlo.m` generates a four-panel design-space screening figure:
+## **Analytical / Computational Hydraulic Design-Space Screening**
+
+![Figure 2 — HIFE hydraulic Monte Carlo design-space screening](HIFE_Figure2_Hydraulic_MonteCarlo.png)
+
+**Figure 2** screens the proposed architecture using a first-order hydraulic model and uncertainty analysis.
 
 | Panel | Purpose                 |
 | ----- | ----------------------- |
 | **A** | Design assumptions      |
-| **B** | Monte Carlo uncertainty |
+| **B** | Baseline uncertainty    |
 | **C** | Architecture comparison |
 | **D** | Parameter sensitivity   |
 
-**Evidence classification: model-based design-space screening only.**
+> **Evidence status: model-based design-space evidence only.**
+
+The figure is **not** experimental validation, CFD, measured permeability, or validated electrochemical performance.
 
 ---
 
 # 🧮 Hydraulic Model
 
-## Porous Electrode
+## Porous Region
 
-The porous region uses a Darcy-type relationship:
-
-$$
-\boxed{\Delta P=\frac{\mu Lv}{k}}
-$$
-
-where:
-
-* $\Delta P$ = pressure drop
-* $\mu$ = viscosity
-* $L$ = flow-path length
-* $v$ = superficial velocity
-* $k$ = permeability
-
-Permeability is estimated using a first-order Carman–Kozeny-type relation:
+The porous electrode is represented using:
 
 $$
-\boxed{
-k=
+\Delta P = \frac{\mu L v}{k}
+$$
+
+with a first-order Carman–Kozeny-type permeability estimate:
+
+$$
+k =
 \frac{d_f^2\epsilon^3}
 {180(1-\epsilon)^2}
-}
 $$
 
-This is a **screening approximation**, not measured HIFE permeability.
+This is a screening approximation. Actual fibrous-electrode permeability depends on factors such as microstructure, orientation, tortuosity, compression, and manufacturing.
 
----
+## Flow Channel
 
-## 🚿 Channel Model
-
-The 1 mm × 1 mm square channel uses:
+For the 1 mm × 1 mm square channel:
 
 $$
-\boxed{
 \Delta P_{\text{channel}}
 =
-f_D\frac{L}{D_h}
-\frac{\rho v^2}{2}
-}
+f_D\frac{L}{D_h}\frac{\rho v^2}{2}
 $$
 
 with:
 
 $$
-D_h=1\text{ mm}
+Re_{D_h}=\frac{\rho vD_h}{\mu}
 $$
 
-and the square-duct laminar relation:
+and the square-channel laminar relation:
 
 $$
-\boxed{f_DRe_{D_h}=56.91}
+f_DRe_{D_h}=56.91
 $$
 
-where:
+The value 56.91 is specific to the square-channel relation used in this screening model.
+
+## Combined Architecture
+
+The porous land and channel are represented as simplified parallel hydraulic paths:
 
 $$
-Re_{D_h}=
-\frac{\rho vD_h}{\mu}
-$$
-
-The 56.91 value is **specific to the square-channel screening relation** used here.
-
----
-
-# 🔀 Parallel Flow Paths
-
-The channel-assisted architecture is represented as simplified parallel hydraulic pathways:
-
-```text
-             FLOW
-               ↓
-        ┌──────┴──────┐
-        ↓             ↓
-   POROUS LAND     CHANNEL
-        ↓             ↓
-        └──────┬──────┘
-               ↓
-              OUT
-```
-
-The effective resistance is:
-
-$$
-\boxed{
 R_{\text{eff}}
 =
 \frac{1}
-{\frac{1}{R_{\text{land}}}
-+
-\frac{1}{R_{\text{channel}}}}
+{
+1/R_{\text{land}}+1/R_{\text{channel}}
 }
 $$
 
-This is a **first-order hydraulic surrogate**, not a CFD solution.
+This is a **hydraulic surrogate**, not a CFD model of the final electrode.
 
 ---
 
 # 🎲 Monte Carlo Analysis
 
-The model propagates uncertainty in:
+Uncertainty is propagated independently through:
 
-| Parameter      |     Range |
-| -------------- | --------: |
-| Viscosity      |      ±10% |
+| Parameter      | Range     |
+| -------------- | --------- |
+| Viscosity      | ±10%      |
 | Porosity       | 0.88–0.92 |
-| Fiber diameter |      ±10% |
-| Length         |      ±10% |
+| Fiber diameter | ±10%      |
+| Length         | ±10%      |
 
-Simulation counts:
+Simulation settings:
 
 ```text
-Baseline       20,000
-Channel        4,000
-Sensitivity    3,000
-Random seed    7
+Baseline       20,000 samples
+Channel         4,000 samples
+Sensitivity     3,000 samples
+Random seed         7
 ```
 
-The baseline analysis reports:
-
-* median pressure drop
-* 5th percentile
-* 95th percentile
-
-This provides a distribution rather than relying on a single nominal calculation.
+The baseline analysis reports the median and 5th/95th percentile pressure-drop estimates.
 
 ---
 
-# 🔬 Architecture Comparison
+# 📊 Architecture Comparison
 
-Panel C compares:
-
-### Baseline
-
-Nominal porous electrode.
-
-### Channel-assisted
-
-3 mm porous land + 1 mm × 1 mm channel.
-
-Velocity is swept over:
+The model compares a nominal porous baseline with a simplified channel-assisted architecture over:
 
 $$
-10^{-4}\leq v\leq10^{-1}\text{ m/s}
+10^{-4}\leq v\leq10^{-1}\ \text{m/s}
 $$
 
-The curves are **independently normalized to their own medians**.
+The curves in Figure 2C are **independently normalized to their own medians**.
 
-Therefore Panel C shows **relative response shape**, not absolute pump-power savings or experimentally measured performance.
+Therefore, this panel is a **relative response-shape comparison**.
+
+It does **not** establish:
+
+* absolute pump-power savings,
+* experimental pressure-drop reduction, or
+* system-level efficiency improvement.
 
 ---
 
-# 📊 Sensitivity Analysis
+# 📈 Sensitivity Analysis
 
-Panel D evaluates the relationship between:
+Figure 2D evaluates Pearson correlations between:
 
 $$
 \log_{10}(\Delta P)
@@ -350,11 +268,9 @@ and:
 * fiber diameter
 * electrode thickness
 
-using Pearson correlation.
+This is a parameter-screening tool.
 
-This identifies which uncertain parameters are most strongly associated with the model response.
-
-Correlation is a **screening metric**, not proof of causation.
+> **Correlation identifies model sensitivity; it does not establish causation or replace experiment.**
 
 ---
 
@@ -381,114 +297,44 @@ Correlation is a **screening metric**, not proof of causation.
 
 # ⚠️ Limitations
 
-The current model does **not** include:
+The present model does not explicitly represent:
 
-* experimental permeability
-* CFD
+* measured electrode permeability
 * compression
 * entrance effects
-* gas-phase effects
+* gas-phase behavior
 * clogging
 * concentration gradients
-* electrochemical kinetics
+* detailed electrochemical kinetics
 * transient iron morphology
 * precipitation dynamics
-* temperature-dependent behavior
-* detailed pore-scale geometry
+* temperature effects
+* detailed pore geometry
 * stack-level flow distribution
-* manufacturing variation beyond stated uncertainty
+* CFD
+* experimental validation
 
 Therefore:
 
-> **Figure 2 establishes a computational hypothesis, not experimental proof.**
+> **Figure 2 defines a testable engineering hypothesis and identifies design variables for future validation.**
+
+It does not establish battery performance.
 
 ---
 
-# 🧪 From Model to Experiment
+# 🔋 Why Iron? Why Not Lithium-Ion or Vanadium?
 
-The intended development path is:
+HIFE is **not** intended to prove that iron flow batteries are universally better than lithium-ion or vanadium systems.
 
-```text
-Concept
-  ↓
-Analytical model
-  ↓
-Uncertainty analysis
-  ↓
-Architecture screening
-  ↓
-Sensitivity analysis
-  ↓
-Design priorities
-  ↓
-Prototype
-  ↓
-Experimental measurements
-  ↓
-Model calibration / validation
-  ↓
-Higher-fidelity modeling
-```
+The chemistry is selected because iron-based aqueous flow batteries provide a useful platform for studying the proposed architecture.
 
-Future work can introduce measured permeability, realistic geometry, electrochemical coupling, deposition dynamics, and eventually CFD or multiphysics modeling.
+Lithium-ion is highly established and remains appropriate for many applications.
 
----
+Vanadium flow batteries are also an established flow-battery technology.
 
-# 🧠 Why Not Simply Make the Electrode More Porous?
+HIFE instead asks a narrower question:
 
-Increasing porosity may reduce hydraulic resistance, but the electrode also needs sufficient structure and reactive surface.
-
-This creates a tradeoff:
-
-```text
-Higher porosity
-      ↕
-Transport vs. reactive structure
-```
-
-HIFE proposes another design option:
-
-> **Combine porous reactive regions with dedicated larger-scale flow pathways.**
-
-The goal is not maximum porosity or maximum channel volume.
-
-It is **controlled transport and reaction access**.
-
----
-
-# 🔋 Why Not Just Use Lithium-Ion?
-
-Lithium-ion is a highly established technology and is not being positioned as something HIFE should universally replace.
-
-HIFE instead targets a different application space:
-
-**stationary, potentially long-duration energy storage.**
-
-Flow batteries offer an architecture where electrolyte is stored externally and energy and power can be scaled somewhat independently.
-
-The relevant question is therefore:
-
-> **For applications where an aqueous flow battery is attractive, can electrode architecture improve its transport environment?**
-
----
-
-# 🧪 Why Not Vanadium?
-
-Vanadium redox-flow batteries are an established flow-battery technology.
-
-HIFE does not attempt to dismiss vanadium.
-
-Iron is simply the chemistry selected for this research direction.
-
-The hypothesis is:
-
-```text
-Iron chemistry
-      +
-Hierarchical architecture
-      ↓
-Testable engineering concept
-```
+> **If an aqueous iron-flow system is selected for a stationary or long-duration application, can hierarchical electrode architecture improve its transport environment?**
 
 ---
 
@@ -498,74 +344,84 @@ Testable engineering concept
 
 **Analytical / computational design-space screening**
 
-### Not yet available
+### Not yet demonstrated
 
-* ❌ Experimental pressure-drop measurements
-* ❌ Experimental electrochemical validation
-* ❌ Measured HIFE permeability
-* ❌ CFD validation
-* ❌ Stack-level validation
-* ❌ Field data
+* Experimental pressure-drop measurements
+* Measured HIFE permeability
+* Electrochemical validation
+* CFD validation
+* Stack-level validation
+* Long-term durability
+* Manufacturing feasibility
+* Economic superiority
 
 The distinction is intentional:
 
-> **The model identifies a hypothesis and experimental priorities; experiments must determine whether the concept works in reality.**
+> **The model explores the design space. The experiment determines what is real.**
 
 ---
 
 # 🔬 Reproducibility
 
-Primary script:
+Primary source:
 
 ```text
 HIFE_Figure2_Hydraulic_MonteCarlo.m
 ```
 
-Key reproducibility settings:
+Random-number reproducibility:
 
 ```matlab
 SEED = 7;
 rng(SEED,'twister');
 ```
 
-The script records the assumptions, uncertainty ranges, Monte Carlo settings, equations, and outputs.
-
-### Outputs
+Generated outputs:
 
 ```text
 HIFE_Figure2_Hydraulic_MonteCarlo.png
 HIFE_Figure2_Hydraulic_MonteCarlo.pdf
 ```
 
-The PNG is intended for presentation/submission use; the PDF provides vector graphics for technical documentation and LaTeX.
+The PNG is used for presentation and GitHub display.
+
+The PDF provides a vector version for technical documentation and submission materials.
 
 ---
 
 # 🧭 What Comes Next?
 
-### Phase 1 — Current
+```text
+Phase 1
+First-order hydraulic screening
+        ↓
+Phase 2
+Geometry refinement
+        ↓
+Phase 3
+Experimental permeability measurements
+        ↓
+Phase 4
+Electrochemical coupling
+        ↓
+Phase 5
+CFD / multiphysics modeling
+        ↓
+Phase 6
+Prototype validation
+```
 
-First-order hydraulic design-space screening.
+Future work should progressively introduce:
 
-### Phase 2
-
-Refine geometry and flow distribution.
-
-### Phase 3
-
-Measure actual electrode permeability.
-
-### Phase 4
-
-Couple hydraulics with electrochemical behavior.
-
-### Phase 5
-
-Model evolving iron deposition and structure.
-
-### Phase 6
-
-Prototype and experimentally validate the architecture.
+* realistic channel and land geometry
+* measured permeability
+* spatial flow distribution
+* reaction kinetics
+* concentration effects
+* current distribution
+* iron deposition behavior
+* evolving permeability
+* higher-fidelity multiphysics models
 
 ---
 
@@ -604,24 +460,63 @@ STRUCTURE EVOLUTION
 
 ## **HIFE — Hierarchical Integrated Flow Electrode**
 
-**Guide the flow.
-Expose the reaction.
-Anticipate the deposition.
-Design the electrode as a system.**
+### **Guide the flow.**
 
-**The chemistry stores the energy.
-The architecture shapes the environment.
-The model explores the design space.
-The experiment decides what is real.**
+### **Expose the reaction.**
+
+### **Anticipate the deposition.**
+
+### **Design the electrode as a system.**
+
+> **The chemistry stores the energy.
+> The architecture shapes the environment.
+> The model explores the design space.
+> The experiment decides what is real.**
 
 ---
 
-### Author
+# 📁 Project Files
+
+```text
+HIFE/
+├── README.md
+├── HIFE_Figure2_Hydraulic_MonteCarlo.m
+├── HIFE_Figure2_Hydraulic_MonteCarlo.png
+└── HIFE_Figure2_Hydraulic_MonteCarlo.pdf
+```
+
+The MATLAB script is the primary computational source for Figure 2.
+
+---
+
+# 📌 Model Status
+
+| Item                       | Status            |
+| -------------------------- | ----------------- |
+| HIFE architecture          | Proposed          |
+| Hydraulic model            | Implemented       |
+| Monte Carlo analysis       | Implemented       |
+| Sensitivity analysis       | Implemented       |
+| Experimental validation    | Not yet performed |
+| Measured permeability      | Not yet available |
+| CFD                        | Not yet performed |
+| Electrochemical validation | Not yet performed |
+| Stack validation           | Not yet performed |
+
+---
+
+## 👤 Author
 
 **Umar Tabbsum**
 
 **HIFE — Hierarchical Integrated Flow Electrode**
 
 *Analytical / Computational Hydraulic Design-Space Screening*
+
 *October 2026*
 
+---
+
+## ⭐ HIFE
+
+> **Don't just choose the chemistry. Design the environment in which the chemistry works.**
