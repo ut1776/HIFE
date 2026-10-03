@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<title>HIFE — Hierarchical Integrated Flow Electrode</title>
+
+<style>
+
+:root{
+    --navy:#142d46;
+    --navy2:#0c1e31;
+    --teal:#006973;
+    --teal2:#0b8791;
+    --blue:#2879a8;
+    --gold:#d39a32;
+    --red:#b94b4b;
+    --slate:#5f6d78;
+    --light:#f0f6f8;
+    --white:#ffffff;
+    --line:#d8e2e7;
+    --shadow:0 18px 50px rgba(15,35,50,.14);
+}
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    color:#16232e;
+    background:
+        linear-gradient(180deg,#f7fafb 0%,#eef4f6 100%);
+    overflow-x:hidden;
+}
+
+button{
+    font:inherit;
+}
+
+.header{
+    background:
+        linear-gradient(135deg,var(--navy2),var(--navy));
+    color:white;
+    padding:28px 22px 25px;
+    box-shadow:0 8px 30px rgba(0,0,0,.16);
+}
+
+.header-inner{
+    max-width:1280px;
+    margin:auto;
+}
+
+.kicker{
+    font-size:12px;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:#8ed4da;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.brand{
+    font-size:clamp(36px,7vw,68px);
+    font-weight:800;
+    letter-spacing:8px;
+    line-height:.95;
+    margin:0;
+}
+
+.subtitle{
+    margin-top:10px;
+    font-size:clamp(16px,2.2vw,22px);
+    color:#dcecf0;
+    font-weight:500;
+}
+
+.competition{
+    margin-top:8px;
+    font-size:13px;
+    color:#9db4c1;
+}
+
+.main{
+    max-width:1280px;
+    margin:0 auto;
+    padding:24px 18px 50px;
+}
+
+.hero{
+    display:grid;
+    grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr);
+    gap:22px;
+    align-items:stretch;
+}
+
+.panel{
+    background:white;
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+
+/* =========================================================
+   CONTROL BAR
+   ========================================================= */
+
+.controls{
+    padding:14px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+    background:#fbfdfe;
+}
+
+.control{
+    border:0;
+    border-radius:10px;
+    padding:11px 16px;
+    min-height:44px;
+    font-size:12px;
+    letter-spacing:1px;
+    font-weight:800;
+    cursor:pointer;
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        opacity .15s ease;
+}
+
+.control:active{
+    transform:scale(.97);
+}
+
+.control.primary{
+    color:white;
+    background:var(--teal);
+    box-shadow:0 5px 14px rgba(0,105,115,.25);
+}
+
+.control.secondary{
+    color:var(--navy);
+    background:#e6eef2;
+}
+
+.control.assemble{
+    color:white;
+    background:var(--blue);
+}
+
+.control.explode{
+    color:white;
+    background:var(--gold);
+}
+
+.status{
+    margin-left:auto;
+    font-size:12px;
+    color:var(--slate);
+    font-weight:700;
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+.timeline{
+    padding:12px 16px 14px;
+    background:white;
+}
+
+.timeline-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:7px;
+}
+
+.time-label{
+    font-size:12px;
+    font-weight:800;
+    color:var(--navy);
+    font-variant-numeric:tabular-nums;
+}
+
+.progress{
+    height:8px;
+    background:#e3ebee;
+    border-radius:99px;
+    overflow:hidden;
+    position:relative;
+}
+
+.progress-fill{
+    position:absolute;
+    inset:0 auto 0 0;
+    width:0%;
+    background:
+        linear-gradient(90deg,var(--teal),var(--blue));
+    border-radius:99px;
+    transition:width .05s linear;
+}
+
+
+/* =========================================================
+   3D STAGE
+   ========================================================= */
+
+.stage{
+    min-height:620px;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            circle at 50% 43%,
+            rgba(0,105,115,.11),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f7fbfc,
+            #e8f0f3
+        );
+}
+
+.stage-grid{
+    position:absolute;
+    inset:auto -15% -10% -15%;
+    height:55%;
+    opacity:.30;
+    transform:
+        perspective(650px)
+        rotateX(63deg);
+    background-image:
+        linear-gradient(#94aeb8 1px,transparent 1px),
+        linear-gradient(90deg,#94aeb8 1px,transparent 1px);
+    background-size:38px 38px;
+}
+
+.stage-title{
+    position:absolute;
+    top:18px;
+    left:20px;
+    z-index:20;
+}
+
+.stage-title strong{
+    display:block;
+    color:var(--navy);
+    font-size:18px;
+}
+
+.stage-title span{
+    display:block;
+    color:var(--slate);
+    font-size:12px;
+    margin-top:3px;
+}
+
+.scene-badge{
+    position:absolute;
+    top:18px;
+    right:20px;
+    z-index:20;
+    background:rgba(255,255,255,.88);
+    backdrop-filter:blur(8px);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:9px 12px;
+    font-size:11px;
+    color:var(--navy);
+    font-weight:800;
+}
+
+.scene-badge small{
+    display:block;
+    color:var(--slate);
+    margin-top:2px;
+    font-weight:600;
+}
+
+
+/* =========================================================
+   MAIN ROTATING ASSEMBLY
+   ========================================================= */
+
+.scene{
+    position:absolute;
+    width:440px;
+    height:440px;
+    left:50%;
+    top:53%;
+    transform:
+        translate(-50%,-50%)
+        perspective(1100px);
+    perspective:1100px;
+}
+
+.assembly{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:330px;
+    height:330px;
+    transform-style:preserve-3d;
+    transform:
+        translate(-50%,-50%)
+        rotateX(58deg)
+        rotateY(-28deg)
+        rotateZ(0deg);
+}
+
+
+/* =========================================================
+   LAYER COMMON
+   ========================================================= */
+
+.layer{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:300px;
+    height:190px;
+    transform-style:preserve-3d;
+    transform-origin:center;
+    transition:
+        transform 1.0s cubic-bezier(.2,.8,.2,1);
+    border-radius:8px;
+}
+
+
+/* =========================================================
+   MEMBRANE
+   ========================================================= */
+
+.membrane{
+    transform:
+        translate(-50%,-50%)
+        translateZ(0px);
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,105,115,.17) 0px,
+            rgba(0,105,115,.17) 2px,
+            rgba(255,255,255,.35) 2px,
+            rgba(255,255,255,.35) 7px
+        ),
+        #cfe5e8;
+    border:2px solid #79adb4;
+    box-shadow:
+        0 0 25px rgba(0,105,115,.22);
+}
+
+
+/* =========================================================
+   FIBROUS ELECTRODE
+   ========================================================= */
+
+.fiber{
+    transform:
+        translate(-50%,-50%)
+        translateZ(70px);
+    background:
+        repeating-linear-gradient(
+            22deg,
+            transparent 0 7px,
+            rgba(255,255,255,.7) 8px 10px,
+            transparent 11px 17px
+        ),
+        repeating-linear-gradient(
+            112deg,
+            rgba(20,45,70,.28) 0 2px,
+            transparent 3px 10px
+        ),
+        #657b87;
+    border:2px solid #425864;
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,.15),
+        0 15px 25px rgba(20,45,70,.22);
+}
+
+
+/* =========================================================
+   POROUS NETWORK
+   ========================================================= */
+
+.porous{
+    transform:
+        translate(-50%,-50%)
+        translateZ(140px);
+    background:
+        linear-gradient(
+            30deg,
+            transparent 45%,
+            rgba(0,105,115,.48) 46% 48%,
+            transparent 49%
+        ),
+        linear-gradient(
+            150deg,
+            transparent 45%,
+            rgba(0,105,115,.48) 46% 48%,
+            transparent 49%
+        ),
+        #dbe9ec;
+    background-size:34px 34px;
+    border:2px solid #76a6ae;
+    box-shadow:
+        0 0 25px rgba(0,105,115,.16);
+}
+
+
+/* =========================================================
+   HYDRAULIC LAYER
+   ========================================================= */
+
+.hydraulic{
+    transform:
+        translate(-50%,-50%)
+        translateZ(210px);
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0 12%,
+            rgba(40,121,168,.25) 12% 19%,
+            transparent 19% 81%,
+            rgba(40,121,168,.25) 81% 88%,
+            transparent 88%
+        ),
+        #edf4f6;
+    border:2px solid #4785a5;
+}
+
+
+/* =========================================================
+   HYDRAULIC CHANNELS
+   ========================================================= */
+
+.channel{
+    position:absolute;
+    height:16px;
+    border-radius:99px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(40,121,168,.12),
+            rgba(40,121,168,.55),
+            rgba(40,121,168,.12)
+        );
+    border:1px solid rgba(40,121,168,.55);
+    overflow:hidden;
+}
+
+.channel.one{
+    width:250px;
+    left:25px;
+    top:45px;
+}
+
+.channel.two{
+    width:250px;
+    left:25px;
+    bottom:45px;
+}
+
+.flow{
+    position:absolute;
+    top:3px;
+    left:-30px;
+    width:25px;
+    height:8px;
+    border-radius:99px;
+    background:#2879a8;
+    box-shadow:
+        42px 0 #2879a8,
+        84px 0 #2879a8,
+        126px 0 #2879a8,
+        168px 0 #2879a8,
+        210px 0 #2879a8;
+    animation:
+        flowMove 1.7s linear infinite;
+}
+
+@keyframes flowMove{
+    from{
+        transform:translateX(0)
+    }
+    to{
+        transform:translateX(80px)
+    }
+}
+
+
+/* =========================================================
+   CELL DISTRIBUTION PLATE
+   ========================================================= */
+
+.cell{
+    transform:
+        translate(-50%,-50%)
+        translateZ(280px);
+    background:
+        linear-gradient(
+            90deg,
+            #173650,
+            #28526d
+        );
+    border:3px solid #102a40;
+    box-shadow:
+        0 20px 35px rgba(20,45,70,.30);
+}
+
+.cell::before,
+.cell::after{
+    content:"";
+    position:absolute;
+    left:30px;
+    right:30px;
+    height:18px;
+    border-radius:4px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #77aabd 0 12px,
+            #214963 12px 22px
+        );
+    opacity:.85;
+}
+
+.cell::before{
+    top:45px;
+}
+
+.cell::after{
+    bottom:45px;
+}
+
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+.layer-label{
+    position:absolute;
+    z-index:50;
+    padding:5px 8px;
+    border-radius:6px;
+    background:rgba(255,255,255,.91);
+    border:1px solid rgba(20,45,70,.15);
+    box-shadow:0 5px 14px rgba(0,0,0,.09);
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.6px;
+    color:var(--navy);
+    white-space:nowrap;
+    pointer-events:none;
+}
+
+.label-cell{
+    right:-25px;
+    top:40px;
+}
+
+.label-hydraulic{
+    right:-52px;
+    top:125px;
+}
+
+.label-porous{
+    left:-55px;
+    top:130px;
+}
+
+.label-fiber{
+    left:-40px;
+    bottom:70px;
+}
+
+.label-membrane{
+    left:-25px;
+    bottom:15px;
+}
+
+
+/* =========================================================
+   ASSEMBLY STATES
+   ========================================================= */
+
+.assembly.assembled .membrane{
+    transform:
+        translate(-50%,-50%)
+        translateZ(0px);
+}
+
+.assembly.assembled .fiber{
+    transform:
+        translate(-50%,-50%)
+        translateZ(8px);
+}
+
+.assembly.assembled .porous{
+    transform:
+        translate(-50%,-50%)
+        translateZ(16px);
+}
+
+.assembly.assembled .hydraulic{
+    transform:
+        translate(-50%,-50%)
+        translateZ(24px);
+}
+
+.assembly.assembled .cell{
+    transform:
+        translate(-50%,-50%)
+        translateZ(32px);
+}
+
+
+/* =========================================================
+   NARRATION PANEL
+   ========================================================= */
+
+.narration{
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    min-height:620px;
+}
+
+.narration-kicker{
+    color:var(--teal);
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+}
+
+.narration h1{
+    color:var(--navy);
+    font-size:clamp(25px,3vw,38px);
+    line-height:1.08;
+    margin:8px 0 5px;
+}
+
+.narration-time{
+    color:var(--slate);
+    font-size:12px;
+    font-weight:800;
+    font-variant-numeric:tabular-nums;
+}
+
+.narration-text{
+    margin-top:24px;
+    font-size:clamp(17px,2vw,21px);
+    line-height:1.65;
+    color:#253642;
+}
+
+.prompt{
+    margin-top:auto;
+    padding:15px;
+    border-left:4px solid var(--teal);
+    background:var(--light);
+    border-radius:8px;
+    font-size:13px;
+    line-height:1.55;
+    color:#314752;
+}
+
+.disclosure{
+    margin-top:15px;
+    font-size:11px;
+    line-height:1.55;
+    color:#65747d;
+}
+
+
+/* =========================================================
+   LOWER INFORMATION
+   ========================================================= */
+
+.section{
+    margin-top:24px;
+}
+
+.section-heading{
+    background:var(--navy);
+    color:white;
+    border-radius:16px 16px 0 0;
+    padding:16px 19px;
+    font-size:15px;
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--line);
+    border-top:0;
+    padding:22px;
+    min-height:190px;
+}
+
+.card:first-child{
+    border-radius:0 0 0 16px;
+}
+
+.card:last-child{
+    border-radius:0 0 16px 0;
+}
+
+.card-number{
+    color:var(--teal);
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1.5px;
+}
+
+.card h3{
+    margin:7px 0 9px;
+    color:var(--navy);
+    font-size:18px;
+}
+
+.card p,
+.card li{
+    color:#52636d;
+    font-size:13px;
+    line-height:1.55;
+}
+
+.card ul{
+    margin:0;
+    padding-left:18px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer{
+    margin-top:25px;
+    padding:22px;
+    background:var(--navy2);
+    color:#cbd8de;
+    border-radius:16px;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.footer strong{
+    color:white;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:900px){
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .stage{
+        min-height:520px;
+    }
+
+    .narration{
+        min-height:auto;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .card,
+    .card:first-child,
+    .card:last-child{
+        border-radius:0;
+    }
+
+    .card:last-child{
+        border-radius:0 0 16px 16px;
+    }
+
+    .status{
+        width:100%;
+        margin-left:0;
+    }
+
+}
+
+@media(max-width:560px){
+
+    .main{
+        padding:14px 10px 30px;
+    }
+
+    .header{
+        padding:22px 16px;
+    }
+
+    .brand{
+        font-size:42px;
+        letter-spacing:5px;
+    }
+
+    .stage{
+        min-height:470px;
+    }
+
+    .scene{
+        transform:
+            translate(-50%,-50%)
+            scale(.78);
+    }
+
+    .stage-title{
+        top:13px;
+        left:13px;
+    }
+
+    .scene-badge{
+        top:13px;
+        right:13px;
+    }
+
+    .controls{
+        padding:10px;
+    }
+
+    .control{
+        flex:1 1 auto;
+        padding:10px 9px;
+        font-size:10px;
+    }
+
+    .narration{
+        padding:20px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    .flow{
+        animation:none;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <div class="kicker">
+            Storage Design STEP Prize — Phase 1
+        </div>
+
+        <h1 class="brand">
+            H I F E
+        </h1>
+
+        <div class="subtitle">
+            Hierarchical Integrated Flow Electrode
+        </div>
+
+        <div class="competition">
+            Proposed architecture for aqueous all-iron redox-flow batteries
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="main">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="hero">
+
+
+        <!-- LEFT: VISUAL -->
+
+        <div class="panel">
+
+
+            <div class="controls">
+
+                <button
+                    class="control primary"
+                    id="playBtn">
+                    PLAY / REPLAY
+                </button>
+
+                <button
+                    class="control secondary"
+                    id="pauseBtn">
+                    PAUSE
+                </button>
+
+                <button
+                    class="control assemble"
+                    id="assembleBtn">
+                    ASSEMBLE
+                </button>
+
+                <button
+                    class="control explode"
+                    id="explodeBtn">
+                    UNASSEMBLE
+                </button>
+
+                <div
+                    class="status"
+                    id="statusText">
+                    READY
+                </div>
+
+            </div>
+
+
+            <div class="timeline">
+
+                <div class="timeline-row">
+
+                    <span
+                        class="time-label"
+                        id="currentTime">
+                        00:00
+                    </span>
+
+                    <span
+                        class="time-label">
+                        01:31
+                    </span>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        class="progress-fill"
+                        id="progressFill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="stage">
+
+                <div class="stage-grid"></div>
+
+
+                <div class="stage-title">
+
+                    <strong>
+                        HIFE architecture
+                    </strong>
+
+                    <span>
+                        Hierarchical flow-electrode concept
+                    </span>
+
+                </div>
+
+
+                <div class="scene-badge">
+
+                    <span id="sceneNumber">
+                        SCENE 01 / 10
+                    </span>
+
+                    <small id="sceneTime">
+                        00.0–08.9 s
+                    </small>
+
+                </div>
+
+
+                <div class="scene">
+
+
+                    <div
+                        class="assembly"
+                        id="assembly">
+
+
+                        <!-- MEMBRANE -->
+
+                        <div class="layer membrane">
+
+                            <span
+                                class="layer-label label-membrane">
+                                MEMBRANE
+                            </span>
+
+                        </div>
+
+
+                        <!-- FIBROUS ELECTRODE -->
+
+                        <div class="layer fiber">
+
+                            <span
+                                class="layer-label label-fiber">
+                                FIBROUS ELECTRODE
+                            </span>
+
+                        </div>
+
+
+                        <!-- POROUS NETWORK -->
+
+                        <div class="layer porous">
+
+                            <span
+                                class="layer-label label-porous">
+                                MESOSCALE POROUS NETWORK
+                            </span>
+
+                        </div>
+
+
+                        <!-- HYDRAULIC -->
+
+                        <div class="layer hydraulic">
+
+                            <div class="channel one">
+
+                                <div class="flow"></div>
+
+                            </div>
+
+
+                            <div class="channel two">
+
+                                <div class="flow"></div>
+
+                            </div>
+
+
+                            <span
+                                class="layer-label label-hydraulic">
+                                HYDRAULIC PATHWAYS
+                            </span>
+
+                        </div>
+
+
+                        <!-- CELL -->
+
+                        <div class="layer cell">
+
+                            <span
+                                class="layer-label label-cell">
+                                CELL-LEVEL DISTRIBUTION
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT: NARRATION -->
+
+        <aside class="panel narration">
+
+
+            <div class="narration-kicker">
+                91-second engineering narrative
+            </div>
+
+
+            <h1 id="sceneTitle">
+                Five coupled engineering challenges
+            </h1>
+
+
+            <div
+                class="narration-time"
+                id="sceneTimeText">
+                00.0–08.9 seconds
+            </div>
+
+
+            <div
+                class="narration-text"
+                id="sceneNarration">
+
+                Conventional all-iron flow batteries face five
+                coupled engineering challenges: iron deposition,
+                hydrogen evolution, mass transport, pressure drop,
+                and assembly complexity.
+
+            </div>
+
+
+            <div class="prompt">
+
+                <strong>Interactive architecture</strong><br>
+
+                Press <strong>ASSEMBLE</strong> to see the integrated
+                HIFE architecture. Press <strong>UNASSEMBLE</strong>
+                to explode the layers and inspect the hierarchical
+                design.
+
+            </div>
+
+
+            <div class="disclosure">
+
+                <strong>Technical status:</strong>
+
+                Proposed design concept for experimental validation.
+                No performance results are claimed. Current evidence
+                is analytical/computational screening only; this
+                visualization is not experimental imaging, CFD,
+                or a fabricated HIFE electrode.
+
+            </div>
+
+
+        </aside>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         DESIGN SUMMARY
+         ===================================================== -->
+
+    <section class="section panel">
+
+
+        <div class="section-heading">
+            Engineering architecture
+        </div>
+
+
+        <div class="cards">
+
+
+            <article class="card">
+
+                <div class="card-number">
+                    CHALLENGE SET
+                </div>
+
+                <h3>
+                    Five coupled constraints
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Iron deposition
+                    </li>
+
+                    <li>
+                        Hydrogen evolution
+                    </li>
+
+                    <li>
+                        Mass transport
+                    </li>
+
+                    <li>
+                        Pressure drop
+                    </li>
+
+                    <li>
+                        Assembly complexity
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="card">
+
+                <div class="card-number">
+                    HIERARCHICAL DESIGN
+                </div>
+
+                <h3>
+                    Four coupled scales
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Cell-level distribution
+                    </li>
+
+                    <li>
+                        Engineered hydraulic pathways
+                    </li>
+
+                    <li>
+                        Mesoscale porous network
+                    </li>
+
+                    <li>
+                        Microscale fibrous region
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+            <article class="card">
+
+                <div class="card-number">
+                    VALIDATION PATH
+                </div>
+
+                <h3>
+                    Six evidence gates
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Interface screening
+                    </li>
+
+                    <li>
+                        HIFE coupon
+                    </li>
+
+                    <li>
+                        Large-area electrode
+                    </li>
+
+                    <li>
+                        Single cell
+                    </li>
+
+                    <li>
+                        Stack / module
+                    </li>
+
+                    <li>
+                        Independent validation readiness
+                    </li>
+
+                </ul>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <strong>
+            HIFE — Hierarchical Integrated Flow Electrode
+        </strong>
+
+        <br>
+
+        Storage Design STEP Prize — Phase 1.
+
+        <br><br>
+
+        This website presents a proposed engineering architecture
+        intended for staged experimental validation. The visualization
+        does not represent a fabricated electrode, measured morphology,
+        experimental electrochemical performance, CFD results, or
+        demonstrated commercial performance.
+
+        <br><br>
+
+        Analytical screening assumptions and uncertainty ranges should
+        be interpreted as engineering screening inputs rather than
+        experimental measurements.
+
+    </footer>
+
+
+</main>
+
+
+<!-- =========================================================
+     REAL AI-GENERATED NARRATION
+     ========================================================= -->
+
+<audio
+    id="narrationAudio"
+    preload="auto"
+    playsinline>
+
+    <source
+        src="./assets/HIFE_Narration.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+
+<script>
+
+/* ============================================================
+   HIFE PRESENTATION ENGINE
+   Narration duration: 1:31 = 91 seconds
+   ============================================================ */
+
+const audio =
+    document.getElementById("narrationAudio");
+
+const assembly =
+    document.getElementById("assembly");
+
+const playBtn =
+    document.getElementById("playBtn");
+
+const pauseBtn =
+    document.getElementById("pauseBtn");
+
+const assembleBtn =
+    document.getElementById("assembleBtn");
+
+const explodeBtn =
+    document.getElementById("explodeBtn");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const currentTime =
+    document.getElementById("currentTime");
+
+const statusText =
+    document.getElementById("statusText");
+
+const sceneNumber =
+    document.getElementById("sceneNumber");
+
+const sceneTime =
+    document.getElementById("sceneTime");
+
+const sceneTitle =
+    document.getElementById("sceneTitle");
+
+const sceneTimeText =
+    document.getElementById("sceneTimeText");
+
+const sceneNarration =
+    document.getElementById("sceneNarration");
+
+
+/* ============================================================
+   SCENE DATA
+   Total presentation duration = 91.0 seconds
+   ============================================================ */
+
+const scenes = [
+
+    {
+        start:0.0,
+        end:8.9,
+        title:
+            "Five coupled engineering challenges",
+        text:
+            "Conventional all-iron flow batteries face five coupled engineering challenges: iron deposition, hydrogen evolution, mass transport, pressure drop, and assembly complexity."
+    },
+
+    {
+        start:8.9,
+        end:20.2,
+        title:
+            "Electrolyte and iron redox",
+        text:
+            "In the aqueous all-iron concept, electrolyte circulates through the cell. Iron plates on the negative side, while iron ions change oxidation state on the positive side."
+    },
+
+    {
+        start:20.2,
+        end:35.3,
+        title:
+            "The architectural bottleneck",
+        text:
+            "The bottleneck is not simply finding a cheaper battery chemistry. It is manufacturing the electrochemical interface at the spatial scales required for that chemistry to work economically. H I F E proposes one integrated hierarchical architecture."
+    },
+
+    {
+        start:35.3,
+        end:40.7,
+        title:
+            "Macro scale: flow distribution",
+        text:
+            "At the macro scale, integrated channels distribute electrolyte across the electrode."
+    },
+
+    {
+        start:40.7,
+        end:46.2,
+        title:
+            "Micro scale: interconnected pores",
+        text:
+            "At the micro scale, interconnected pores carry reactants through the structure."
+    },
+
+    {
+        start:46.2,
+        end:52.0,
+        title:
+            "Meso scale: reaction network",
+        text:
+            "At the meso scale, a conductive porous network supplies distributed reaction sites."
+    },
+
+    {
+        start:52.0,
+        end:62.8,
+        title:
+            "Nano scale: deposition interface",
+        text:
+            "At the nano scale, the interface is intended to guide iron nucleation and deposition. Competing hydrogen evolution remains a research challenge, not a solved problem."
+    },
+
+    {
+        start:62.8,
+        end:70.6,
+        title:
+            "Manufacturing pathway",
+        text:
+            "The manufacturing pathway runs from feedstock preparation through structure formation, interface treatment, inspection, cell assembly, and validation."
+    },
+
+    {
+        start:70.6,
+        end:81.9,
+        title:
+            "Phase-two validation",
+        text:
+            "Phase two would validate the concept in stages: interface screening, a coupon, a large-area electrode, a single cell, a stack or module, and independent validation readiness."
+    },
+
+    {
+        start:81.9,
+        end:91.0,
+        title:
+            "Design the battery for validation",
+        text:
+            "H I F E. Hierarchical Integrated Flow Electrode. Design the battery for the laboratory that can prove it."
+    }
+
+];
+
+
+/* ============================================================
+   STATE
+   ============================================================ */
+
+let presentationRunning = false;
+let animationFrame = null;
+let visualStartTime = null;
+
+/*
+   NEW NARRATION LENGTH
+   1 minute 31 seconds = 91 seconds
+*/
+
+const PRESENTATION_DURATION = 91.0;
+
+
+/* ============================================================
+   FORMAT TIME
+   ============================================================ */
+
+function formatTime(seconds){
+
+    seconds =
+        Math.max(
+            0,
+            Math.min(
+                PRESENTATION_DURATION,
+                seconds || 0
+            )
+        );
+
+    const mins =
+        Math.floor(seconds / 60);
+
+    const secs =
+        Math.floor(seconds % 60);
+
+    return (
+        String(mins).padStart(2,"0")
+        +
+        ":"
+        +
+        String(secs).padStart(2,"0")
+    );
+}
+
+
+/* ============================================================
+   FIND CURRENT SCENE
+   ============================================================ */
+
+function getScene(time){
+
+    for(let i = 0; i < scenes.length; i++){
+
+        if(
+            time >= scenes[i].start &&
+            time < scenes[i].end
+        ){
+
+            return i;
+
+        }
+
+    }
+
+    return scenes.length - 1;
+}
+
+
+/* ============================================================
+   UPDATE SCENE CONTENT
+   ============================================================ */
+
+function updateScene(time){
+
+    const index =
+        getScene(time);
+
+    const scene =
+        scenes[index];
+
+    sceneNumber.textContent =
+        `SCENE ${String(index + 1).padStart(2,"0")} / 10`;
+
+    sceneTime.textContent =
+        `${scene.start.toFixed(1)}–${scene.end.toFixed(1)} s`;
+
+    sceneTitle.textContent =
+        scene.title;
+
+    sceneTimeText.textContent =
+        `${scene.start.toFixed(1)}–${scene.end.toFixed(1)} seconds`;
+
+    sceneNarration.textContent =
+        scene.text;
+}
+
+
+/* ============================================================
+   VISUAL ROTATION
+   ============================================================ */
+
+function updateVisual(time){
+
+    /*
+       Rotation is driven from the same presentation
+       clock as the narration.
+
+       Replay therefore begins from exactly the
+       same visual orientation.
+    */
+
+    const progress =
+        Math.min(
+            1,
+            Math.max(
+                0,
+                time / PRESENTATION_DURATION
+            )
+        );
+
+    const y =
+        -28 +
+        progress * 720;
+
+    const x =
+        58 +
+        Math.sin(
+            progress * Math.PI * 2
+        ) * 5;
+
+    const z =
+        Math.sin(
+            progress * Math.PI * 4
+        ) * 2;
+
+    assembly.style.transform =
+        `
+        translate(-50%,-50%)
+        rotateX(${x}deg)
+        rotateY(${y}deg)
+        rotateZ(${z}deg)
+        `;
+}
+
+
+/* ============================================================
+   MAIN ANIMATION LOOP
+   ============================================================ */
+
+function presentationLoop(timestamp){
+
+    if(!presentationRunning){
+
+        return;
+
+    }
+
+
+    if(visualStartTime === null){
+
+        visualStartTime =
+            timestamp -
+            (audio.currentTime * 1000);
+
+    }
+
+
+    const elapsed =
+        (timestamp - visualStartTime) / 1000;
+
+
+    /*
+       AUDIO CLOCK IS AUTHORITATIVE.
+
+       The actual MP3 controls the progress whenever
+       playback is active. The elapsed visual clock is
+       retained as a fallback.
+    */
+
+    const audioTime =
+        Number.isFinite(audio.currentTime)
+            ? audio.currentTime
+            : elapsed;
+
+
+    const time =
+        Math.min(
+            PRESENTATION_DURATION,
+            audioTime
+        );
+
+
+    const progress =
+        (time / PRESENTATION_DURATION) * 100;
+
+
+    progressFill.style.width =
+        `${progress}%`;
+
+    currentTime.textContent =
+        formatTime(time);
+
+    updateScene(time);
+
+    updateVisual(time);
+
+
+    /*
+       End condition.
+    */
+
+    if(
+        audio.ended ||
+        time >= PRESENTATION_DURATION
+    ){
+
+        finishPresentation();
+
+        return;
+
+    }
+
+
+    animationFrame =
+        requestAnimationFrame(
+            presentationLoop
+        );
+}
+
+
+/* ============================================================
+   START / REPLAY
+   ============================================================ */
+
+async function startPresentation(){
+
+    /*
+       PLAY always starts the complete presentation
+       from 00:00.
+
+       This also means pressing PLAY after PAUSE
+       intentionally restarts from the beginning.
+    */
+
+    cancelAnimationFrame(animationFrame);
+
+    presentationRunning = false;
+
+    audio.pause();
+
+
+    /*
+       Reset audio.
+    */
+
+    audio.currentTime = 0;
+
+
+    /*
+       Reset visual clock.
+    */
+
+    visualStartTime = null;
+
+
+    /*
+       Reset scene.
+    */
+
+    updateScene(0);
+
+
+    /*
+       Reset visual orientation.
+    */
+
+    updateVisual(0);
+
+
+    /*
+       Reset progress.
+    */
+
+    progressFill.style.width =
+        "0%";
+
+    currentTime.textContent =
+        "00:00";
+
+    statusText.textContent =
+        "PLAYING";
+
+
+    presentationRunning = true;
+
+
+    try{
+
+        await audio.play();
+
+    }catch(error){
+
+        presentationRunning = false;
+
+        statusText.textContent =
+            "PRESS PLAY TO START AUDIO";
+
+        console.warn(
+            "Audio playback requires user interaction.",
+            error
+        );
+
+        return;
+
+    }
+
+
+    animationFrame =
+        requestAnimationFrame(
+            presentationLoop
+        );
+}
+
+
+/* ============================================================
+   PAUSE
+   ============================================================ */
+
+function pausePresentation(){
+
+    if(!presentationRunning){
+
+        return;
+
+    }
+
+    presentationRunning = false;
+
+    cancelAnimationFrame(animationFrame);
+
+    audio.pause();
+
+    statusText.textContent =
+        "PAUSED";
+}
+
+
+/* ============================================================
+   FINISH
+   ============================================================ */
+
+function finishPresentation(){
+
+    presentationRunning = false;
+
+    cancelAnimationFrame(animationFrame);
+
+    audio.pause();
+
+
+    /*
+       Leave the final visual state visible.
+    */
+
+    const finalAudioTime =
+        Number.isFinite(audio.duration) &&
+        audio.duration > 0
+            ? audio.duration
+            : PRESENTATION_DURATION;
+
+
+    audio.currentTime =
+        Math.min(
+            PRESENTATION_DURATION,
+            finalAudioTime
+        );
+
+
+    /*
+       Final progress.
+    */
+
+    progressFill.style.width =
+        "100%";
+
+
+    /*
+       NEW FINAL TIME = 01:31
+    */
+
+    currentTime.textContent =
+        "01:31";
+
+
+    /*
+       Show final scene.
+    */
+
+    updateScene(
+        PRESENTATION_DURATION - 0.001
+    );
+
+    updateVisual(
+        PRESENTATION_DURATION
+    );
+
+
+    statusText.textContent =
+        "COMPLETE — PRESS PLAY TO REPLAY";
+}
+
+
+/* ============================================================
+   AUDIO EVENTS
+   ============================================================ */
+
+audio.addEventListener(
+    "ended",
+    function(){
+
+        /*
+           Automatic replay.
+
+           The narration loops from 00:00 after reaching
+           the end of the 1:31 audio track.
+        */
+
+        startPresentation();
+
+    }
+);
+
+
+/* ============================================================
+   AUDIO METADATA
+   ============================================================ */
+
+audio.addEventListener(
+    "loadedmetadata",
+    function(){
+
+        if(
+            Number.isFinite(audio.duration) &&
+            audio.duration > 0
+        ){
+
+            console.log(
+                "HIFE narration duration:",
+                audio.duration.toFixed(2),
+                "seconds"
+            );
+
+            /*
+               Expected narration duration is approximately
+               91 seconds.
+
+               The actual audio clock remains authoritative
+               during playback.
+            */
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   ASSEMBLE
+   ============================================================ */
+
+assembleBtn.addEventListener(
+    "click",
+    function(){
+
+        assembly.classList.add(
+            "assembled"
+        );
+
+        statusText.textContent =
+            presentationRunning
+                ? "PLAYING — ASSEMBLED"
+                : "ASSEMBLED";
+
+    }
+);
+
+
+/* ============================================================
+   UNASSEMBLE
+   ============================================================ */
+
+explodeBtn.addEventListener(
+    "click",
+    function(){
+
+        assembly.classList.remove(
+            "assembled"
+        );
+
+        statusText.textContent =
+            presentationRunning
+                ? "PLAYING — EXPLODED"
+                : "EXPLODED";
+
+    }
+);
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+playBtn.addEventListener(
+    "click",
+    startPresentation
+);
+
+pauseBtn.addEventListener(
+    "click",
+    pausePresentation
+);
+
+
+/* ============================================================
+   INITIAL STATE
+   ============================================================ */
+
+updateScene(0);
+
+updateVisual(0);
+
+statusText.textContent =
+    "READY";
+
+</script>
+
+</body>
+
+</html>
