@@ -77,7 +77,7 @@ The objective is to investigate whether dedicated flow pathways can improve tran
 
 ### **Hydraulic Design-Space Screening**
 
-![HIFE Figure 2 — Hydraulic Design-Space Screening](HIFE_Figure2_Hydraulic_MonteCarlo.png)
+![HIFE Figure 2 — Hydraulic Design-Space Screening](figures/IMG_1484.jpeg)
 
 **Figure 2.** First-order computational screening of the proposed HIFE architecture.
 
@@ -136,7 +136,7 @@ For the **1 mm × 1 mm square channel**:
 
 **Laminar square-channel relation**
 
-**f_D Re_Dh = 56.91**
+**f_D · Re_Dh = 56.91**
 
 where:
 
@@ -291,9 +291,7 @@ HIFE_Figure2_Hydraulic_MonteCarlo.png
 HIFE_Figure2_Hydraulic_MonteCarlo.pdf
 ```
 
-The PNG is used for GitHub and presentation display.
-
-The PDF provides a vector version for technical documentation.
+The repository also contains the presentation/reference images used during development.
 
 ---
 
@@ -304,8 +302,15 @@ HIFE/
 ├── README.md
 ├── HIFE_Figure2_Hydraulic_MonteCarlo.m
 ├── HIFE_Figure2_Hydraulic_MonteCarlo.png
-└── HIFE_Figure2_Hydraulic_MonteCarlo.pdf
+├── HIFE_Figure2_Hydraulic_MonteCarlo.pdf
+└── figures/
+    ├── .gitkeep
+    ├── HIFE_Image Sep 30, 2026_UT.png
+    ├── IMG_1483.jpeg
+    └── IMG_1484.jpeg
 ```
+
+**Figure 2:** `figures/IMG_1484.jpeg`
 
 ---
 
