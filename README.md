@@ -10,6 +10,7 @@
 
 * [HIFE](#-hife)
 * [Concept](#-concept)
+* [Project Presentation & Interactive Demo](#-project-presentation--interactive-demo)
 * [Figure 2](#-figure-2)
 * [Model](#-model)
 * [Monte Carlo & Sensitivity](#-monte-carlo--sensitivity)
@@ -24,7 +25,7 @@
 
 # 🔬 HIFE
 
-**HIFE — Hierarchical Integrated Flow Electrode** is a proposed electrode architecture for aqueous iron-based redox-flow batteries.
+**HIFE — Hierarchical Integrated Flow Electrode** is a proposed electrode architecture for aqueous all-iron redox-flow batteries.
 
 The concept integrates multiple transport scales:
 
@@ -70,6 +71,26 @@ The current screening geometry uses:
 ```
 
 The objective is to investigate whether dedicated flow pathways can improve transport through porous reactive regions.
+
+---
+
+# 🌐 Project Presentation & Interactive Demo
+
+Explore the HIFE concept through the interactive engineering visualization:
+
+### 🚀 Interactive HIFE Architecture
+
+**[Launch the HIFE Interactive Demo](https://gregarious-paletas-070b7b.netlify.app)**
+
+The visualization presents the proposed hierarchical architecture, including cell-level distribution, engineered hydraulic pathways, mesoscale porous structure, and microscale fibrous regions. It also provides an interactive assembly/unassembly view of the proposed architecture.
+
+> **Technical status:** Proposed design concept for experimental validation. The visualization is not experimental imaging, CFD, or a fabricated HIFE electrode.
+
+### 🎥 Project Video
+
+**[Watch the HIFE Project Presentation on YouTube](https://m.youtube.com/watch?v=Bni0DZkW-K8&ra=m)**
+
+The video provides the project narrative and communicates the HIFE architecture, engineering motivation, and proposed validation pathway.
 
 ---
 
@@ -291,7 +312,7 @@ HIFE_Figure2_Hydraulic_MonteCarlo.png
 HIFE_Figure2_Hydraulic_MonteCarlo.pdf
 ```
 
-The repository also contains the presentation/reference images used during development.
+The repository also contains presentation and visualization assets used to communicate the HIFE concept.
 
 ---
 
@@ -338,4 +359,5 @@ HIFE/
 
 *HIFE — Hierarchical Integrated Flow Electrode*
 *Analytical / Computational Hydraulic Design-Space Screening*
+*Storage Design STEP Prize — Phase 1*
 *October 2026*
